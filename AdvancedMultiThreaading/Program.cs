@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace AdvancedMultiThreaading
 {
@@ -6,7 +10,27 @@ namespace AdvancedMultiThreaading
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            PrintPLinqList(new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 });
+            PrintPLinqListOrdered(new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 });
+        }
+
+        public static void PrintPLinqList(IEnumerable<int> numbers)
+        {
+            numbers = numbers.AsParallel()
+                .Where(num => num % 3 == 1);
+            Console.WriteLine("Not ordered: " + string.Join(", ", numbers));
+        }
+
+        public static void PrintPLinqListOrdered(IEnumerable<int> numbers)
+        {
+            numbers = numbers.AsParallel().AsOrdered()
+                .Where(num => num % 3 == 1);
+            Console.WriteLine("Ordered: " + string.Join(", ", numbers));
+        }
+
+        public async Task WriteToFile(string message)
+        {
+
         }
     }
 }
